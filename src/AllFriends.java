@@ -9,6 +9,18 @@ import dhl.UserInputHandler;
  * @author Matthew Tse
  *
  */
+/*
+ *
+6
+             Smith Adams Steward Stein Mankell Yorst
+Smith           0    0     0       0     1       0
+Adams           0    0     1       0     0       1
+Steward         0    1     0       0     0       0
+Stein           0    0     0       0     1       0
+Mankell         1    0     0       1     0       0
+Yorst           0    1     0       0     0       0  
+ * */
+
 public class AllFriends {
 
 	/**
@@ -17,7 +29,7 @@ public class AllFriends {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
-			File file = new File("C:/infixExpressions.txt");
+			File file = new File("C:/friendMatrix.txt");
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			StringBuffer stringBuffer = new StringBuffer();
@@ -41,12 +53,18 @@ public class AllFriends {
 			// Option selector
 			while (completeFlag == 0) {
 				name = processInput.getAlphaNum("Enter then name of a person whose friends you want to find (enter 0 for exit): ");
-				
-				if (Integer.parseInt(name) == 0) {
-					completeFlag = 0;
-					System.out.println("Thank you and goodbye");
-					exit(0);
+				try {
+					if (Integer.parseInt(name) != 0) {
+						System.out.println("Not a valid number");
+					} else if (Integer.parseInt(name) == 0) {
+						completeFlag = 0;
+						System.out.println("Thank you and goodbye");
+						exit(0);
+					}
+				} catch (Exception e) {
+					System.out.println("Input Error caused by NFE: " + e);
 				}
+
 				
 			}
 
