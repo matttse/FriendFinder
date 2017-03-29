@@ -1,0 +1,8 @@
+6
+             Smith Adams Steward Stein Mankell Yorst
+Smith           0    0     0       0     1       0
+Adams           0    0     1       0     0       1
+Steward         0    1     0       0     0       0
+Stein           0    0     0       0     1       0
+Mankell         1    0     0       1     0       0
+Yorst           0    1     0       0     0       0
