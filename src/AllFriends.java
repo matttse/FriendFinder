@@ -27,7 +27,7 @@ public class AllFriends {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 		try {
 			File file = new File("C:/friendMatrix.txt");
 			FileReader fileReader = new FileReader(file);
@@ -36,18 +36,25 @@ public class AllFriends {
 			String line;
 			int completeFlag = 0;
 			String name = "";
+			int size = 0;
+			int cnt = 0;
+			ArrayQueue namesQ = new ArrayQueue();
+			
 			
 			//while there is an expression to read
 			//reads infix expression from input file
 			while ((line = bufferedReader.readLine()) != null) {
+				if (cnt == 0) {//first line is number of people in file
+					size = Integer.parseInt(line);
+				} 
 				stringBuffer.append(line);
-				stringBuffer.append("\n");	
-				
-
+				stringBuffer.append(";");	
+				cnt++;
 			}//end while expressions
 			//cleanup
 			stringBuffer.trimToSize();
 			fileReader.close();
+//			namesQ.add(stringBuffer.toString().split(";"));
 			// instantiate the handler
 			UserInputHandler<String> processInput = new UserInputHandler<String>();
 			// Option selector
