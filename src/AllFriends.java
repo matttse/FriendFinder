@@ -38,23 +38,50 @@ public class AllFriends {
 			String name = "";
 			int size = 0;
 			int cnt = 0;
-			ArrayQueue namesQ = new ArrayQueue();
-			
-			
+			String[] namesArray = null;
+			String[] fileData;
+			String data = "";
 			//while there is an expression to read
-			//reads infix expression from input file
 			while ((line = bufferedReader.readLine()) != null) {
 				if (cnt == 0) {//first line is number of people in file
 					size = Integer.parseInt(line);
-				} 
-				stringBuffer.append(line);
-				stringBuffer.append(";");	
+				} else if (cnt == 1) {//store names
+					namesArray = new String[size];
+					namesArray = line.split("\\s");
+				} else {					
+					stringBuffer.append(line);
+					stringBuffer.append("\n");
+				}
+				
+				
 				cnt++;
 			}//end while expressions
 			//cleanup
 			stringBuffer.trimToSize();
 			fileReader.close();
-//			namesQ.add(stringBuffer.toString().split(";"));
+			fileData = stringBuffer.toString().split("\\s+");
+			System.out.println("Contents of file:");
+//			System.out.println(size);
+			for (int i = 0; i < fileData.length; i++) {
+				//^\\s+|\\s+$|(\\s)+
+				/*
+				System.out.format("[%s]%n",
+				    test.replaceAll("^ +| +$|( )+", "$1")
+				*/
+				data += fileData[i].trim().replaceAll(" ", "").replaceAll("\\s", "");
+				System.out.println(fileData[i]);	
+				
+			}
+			for (int i = 0; i < size; i++) {
+				if (i == 0) {//remove tabbed or spaces from first name
+					System.out.println(namesArray[i].trim().replaceAll(" ", "").replaceAll("\\s", ""));	
+				} else {
+					System.out.println(namesArray[i]);
+				}
+				
+			}
+			System.out.println(data);
+			
 			// instantiate the handler
 			UserInputHandler<String> processInput = new UserInputHandler<String>();
 			// Option selector
@@ -75,8 +102,7 @@ public class AllFriends {
 				
 			}
 
-			System.out.println("Contents of file:");		
-			System.out.println(stringBuffer.toString());
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}//end trycatch

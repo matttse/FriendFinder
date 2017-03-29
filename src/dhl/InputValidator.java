@@ -1,7 +1,5 @@
 package dhl;
 
-import dhl.InputValidator.ErrorGetter;
-
 /**
  * @ClassName InputValidator
  * @Author Matthew Tse
