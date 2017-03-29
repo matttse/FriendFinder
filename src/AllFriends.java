@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.TreeMap;
 
 import dhl.UserInputHandler;
@@ -21,7 +22,7 @@ Adams           0    0     1       0     0       1
 Steward         0    1     0       0     0       0
 Stein           0    0     0       0     1       0
 Mankell         1    0     0       1     0       0
-Yorst           0    1     0       0     0       0 
+Yorst           0    1     0       0     0       0
  * */
 
 public class AllFriends {
@@ -29,13 +30,14 @@ public class AllFriends {
 	/**
 	 * @param args
 	 */
+	@SuppressWarnings("null")
 	public static void main(String[] args) {
 		
 		try {
 			File file = new File("C:/friendMatrix.txt");
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			StringBuffer stringBuffer = new StringBuffer();
+//			StringBuffer stringBuffer = new StringBuffer();
 			String line;
 			int completeFlag = 0;
 			String name = "";
@@ -43,11 +45,10 @@ public class AllFriends {
 			int cnt = 0;
 			// instantiate the the customer list object	
 			TreeMap<String, ArrayList> friendList = new TreeMap<String, ArrayList>();
-			ArrayList<Integer> friendValues = new ArrayList<Integer>();
+			ArrayList<int[]> friendValues = new ArrayList<int[]>();
 			String[] namesArray = null;
-			String fileData = null;
-			String[] data = null;
-			int idxStartCount = 0;
+			String[] row = null;
+			int[] intData = null;
 			//while there is an expression to read
 			while ((line = bufferedReader.readLine()) != null) {
 				if (cnt == 0) {//first line is number of people in file
@@ -57,30 +58,38 @@ public class AllFriends {
 					namesArray = line.split("\\s");
 				} else {	
 //					line = line.replaceAll(" ", "");
-					data = line.split("\\s+");
-					stringBuffer.append(line);
-//					data = fileData[cnt].trim().split(" ");
+					row = line.split("\\s+");
+					intData = new int[row.length];
+					for (int i = 1; i < row.length; i++) {
+						if (i == 1) {
+							intData[0] = Integer.parseInt(row[i+1]);	
+						} else {
+							intData[i] = Integer.parseInt(row[i]);
+						}
+						
+					}
+					friendValues.add(intData);
+					friendList.put(namesArray[cnt], friendValues);
 				}
 				
 				
 				cnt++;
 			}//end while expressions
-			//cleanup
-			stringBuffer.trimToSize();
 			fileReader.close();
 			
 			System.out.println("Contents of file:");
-			System.out.println(fileData);
+			
 			for (int i = 0; i < size; i++) {
 				if (i == 0) {//remove tabbed or spaces from first name
 					System.out.println(namesArray[i].trim().replaceAll(" ", "").replaceAll("\\s", ""));
 //					friendList.put(namesArray[i].trim().replaceAll(" ", "").replaceAll("\\s", ""), arg1);	
 				} else {
 					System.out.println(namesArray[i]);
-				}
-				
+				}				
 			}
-			System.out.println(data);
+			for (int i = 0; i < size; i++) {
+				System.out.println(friendList.get(namesArray[i]).iterator());
+			}
 			
 			// instantiate the handler
 			UserInputHandler<String> processInput = new UserInputHandler<String>();
