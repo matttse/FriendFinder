@@ -82,13 +82,13 @@ public class AllFriends {
 				}				
 			}
 			//for debugging purposes ONLY
-			for (int j = 0; j < friendValues.size(); j++) {
-				int[] temp = friendValues.get(j);
-				for (int i = 0; i < temp.length; i++) {
-					System.out.print(temp[i]);	
-				}		
-				System.out.print("\n");
-			}
+//			for (int j = 0; j < friendValues.size(); j++) {
+//				int[] temp = friendValues.get(j);
+//				for (int i = 0; i < temp.length; i++) {
+//					System.out.print(temp[i]);	
+//				}		
+//				System.out.print("\n");
+//			}
 			//for debugging purposes ONLY			
 			
 			// instantiate the handler
