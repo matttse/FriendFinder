@@ -11,7 +11,6 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import dhl.UserInputHandler;
-import dhl.regexInput;
 
 /**
  * @author Matthew Tse
@@ -109,8 +108,7 @@ public class AllFriends {
 			
 			// instantiate the handler
 			UserInputHandler<String> processInput = new UserInputHandler<String>();
-			// instantiate regex runner object
-			regexInput myVal = new regexInput();
+
 			// Option selector
 			while (completeFlag == 0) {
 				name = processInput.getAlphaNum("Enter then name of a person whose friends you want to find (enter 0 for exit): ");				
