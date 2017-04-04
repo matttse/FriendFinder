@@ -142,7 +142,7 @@ public class AllFriends {
 				if (!visited[i]) {
 					intData = friendValues.get(getPersonId(namesArray, name));
 					visited[i] = true;					
-					findFriends(intData, namesArray, visited, i);
+					findFriends(intData, namesArray, friendValues, visited, i);
 				}
 			}			
 					
@@ -154,12 +154,13 @@ public class AllFriends {
 		return idx;
 	}
 	
-	public static void findFriends(int[] friendData, String[] namesArray, boolean[] visited, int id) {
+	public static void findFriends(int[] friendData, String[] namesArray, ArrayList<int[]> friendValues, boolean[] visited, int id) {
 		for (int i = 0; i < friendData.length; i++) {
-			if (!visited[i] && friendData[i] != 0 && i != id) {
+			if (!visited[i] && i != id && friendData[i] != 0) {
 				visited[i] = true;
 				System.out.println(namesArray[i]);
-				findFriends(friendData, namesArray, visited, i);
+				friendData = friendValues.get(i);
+				findFriends(friendData, namesArray, friendValues, visited, i);
 			}
 		}
 	}
