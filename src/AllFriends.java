@@ -56,12 +56,16 @@ public class AllFriends {
 			//while there is an expression to read
 			while ((line = bufferedReader.readLine()) != null) {
 				if (cnt == 0) {//first line is number of people in file
-					size = Integer.parseInt(line);
+					try {
+						size = Integer.parseInt(line.trim().replaceAll("ï»¿", "").replaceAll("\\s+", ""));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				} else if (cnt == 1) {//store names
 					namesArray = new String[size];
-					namesArray = line.trim().replaceAll(" ", " ").replaceAll("\\s", " ").split(" ");
+					namesArray = line.trim().replaceAll("Â", " ").replaceAll("\\s", " ").split(" ");
 				} else {	
-					row = line.split("\\s+");
+					row = line.trim().replaceAll(" ", " ").replaceAll("\\s+", " ").split(" ");
 					intData = new int[(row.length-1)];//set array length offset name
 					for (int i = 0; i < (row.length-1); i++) {
 						intData[i] = Integer.parseInt(row[i+1]);
@@ -87,9 +91,8 @@ public class AllFriends {
 				int[] temp = friendValues.get(j);
 				for (int i = 0; i < temp.length; i++) {
 					System.out.print(temp[i]);	
-				}
+				}		
 				System.out.print("\n");
-				
 			}
 			//for debugging purposes ONLY
 			
@@ -110,15 +113,13 @@ public class AllFriends {
 			regexInput myVal = new regexInput();
 			// Option selector
 			while (completeFlag == 0) {
-				name = processInput.getAlphaNum("Enter then name of a person whose friends you want to find (enter 0 for exit): ");
-				if (output.getFriendList(name, friendValues, namesArray) != null) {
-					output.getFriendList(name, friendValues, namesArray);	
-				} else if (name.equals("0")) {
+				name = processInput.getAlphaNum("Enter then name of a person whose friends you want to find (enter 0 for exit): ");				
+				if (name.equals("0")) {
 					completeFlag = 1;
 					System.out.println("Thank you and goodbye");
 					exit(0);
 				} else {
-					System.out.println("Name Not Found, Try Again.");
+					output.getFriendList(name, friendValues, namesArray);
 				}
 			}
 
@@ -152,18 +153,16 @@ public class AllFriends {
 			}
 			if (!friendListIdx.isEmpty()) {
 				for (int i = 0; i < namesArray.length; i++) {
-					if (friendListIdx.get(i) == i) {
-						friendList += namesArray[i] + " ";
-					}
+					//TODO find friend name based on idx
 				}
-//				for (int i = 0; i < friendListIdx.size(); i++) {
-//					friendList += friendListIdx.get(i) + " ";
-//				}
+
 				System.out.println(friendList);
 			} else {
 				friendList = "No Friends Found.";
 				System.out.println(friendList);
 			}
+		} else {
+			System.out.println("Name not found");
 		}
 
 		
