@@ -34,7 +34,6 @@ public class AllFriends {
 	/**
 	 * @param args
 	 */
-	@SuppressWarnings("null")
 	public static void main(String[] args) {
 		
 		try {
@@ -60,7 +59,7 @@ public class AllFriends {
 					size = Integer.parseInt(line);
 				} else if (cnt == 1) {//store names
 					namesArray = new String[size];
-					namesArray = line.replaceAll("\\s+", " ").split(" ");
+					namesArray = line.trim().replaceAll(" ", " ").replaceAll("\\s", " ").split(" ");
 				} else {	
 					row = line.split("\\s+");
 					intData = new int[(row.length-1)];//set array length offset name
@@ -73,17 +72,17 @@ public class AllFriends {
 			}//end while expressions
 			fileReader.close();
 			
-			System.out.println("Contents of file:");
+			System.out.println("Friend List:");
 			
 			for (int i = 0; i < namesArray.length; i++) {
 				if (i == 0) {//remove tabbed or spaces from first name
 					System.out.println(namesArray[i].trim().replaceAll(" ", "").replaceAll("\\s", ""));
-//					friendList.put(namesArray[i].trim().replaceAll(" ", "").replaceAll("\\s", ""), arg1);	
 				} else {
 					System.out.println(namesArray[i]);
 
 				}				
 			}
+			//for debugging purposes ONLY
 			for (int j = 0; j < friendValues.size(); j++) {
 				int[] temp = friendValues.get(j);
 				for (int i = 0; i < temp.length; i++) {
@@ -92,6 +91,8 @@ public class AllFriends {
 				System.out.print("\n");
 				
 			}
+			//for debugging purposes ONLY
+			
 //			Set<Entry<String, ArrayList>> set = friendList.entrySet();
 //			
 //			Iterator<Entry<String, ArrayList>> idx = set.iterator();
@@ -129,15 +130,42 @@ public class AllFriends {
 	
 	
 	public String getFriendList(String name, ArrayList<int[]> friendValues, String[] namesArray) {
-		String friendList = null;
+		String friendList = "";
 		int idx = -1;
+		int[] temp;
+		ArrayList<Integer> friendListIdx = new ArrayList<Integer>();
+		//get index of desired name
 		for (int i = 0; i < namesArray.length; i++) {
 			if (name.equals(namesArray[i])) {
 				idx = i;
+				System.out.println(idx);
 				break;
 			}
 		}
-		
+		if (idx != -1) {//check name found
+			temp = friendValues.get(idx);//unpack friend identifier row
+			//get friend indexes (non zero)
+			for (int i = 0; i < temp.length; i++) {
+				if (temp[i] != 0) {
+					friendListIdx.add(i);
+				}
+			}
+			if (!friendListIdx.isEmpty()) {
+				for (int i = 0; i < namesArray.length; i++) {
+					if (friendListIdx.get(i) == i) {
+						friendList += namesArray[i] + " ";
+					}
+				}
+//				for (int i = 0; i < friendListIdx.size(); i++) {
+//					friendList += friendListIdx.get(i) + " ";
+//				}
+				System.out.println(friendList);
+			} else {
+				friendList = "No Friends Found.";
+				System.out.println(friendList);
+			}
+		}
+
 		
 		return friendList;
 	}
