@@ -139,9 +139,9 @@ public class AllFriends {
 		if (idx != -1) {//check name found
 			//get friend indexes (non zero)
 			for (int i = 0; i < namesArray.length; i++) {
-				if (!visited[i]) {
-					intData = friendValues.get(getPersonId(namesArray, name));
-					visited[i] = true;					
+				if (!visited[i] && name.equals(namesArray[i])) {
+					visited[i] = true;
+					intData = friendValues.get(getPersonId(namesArray, name));									
 					findFriends(intData, namesArray, friendValues, visited, i);
 				}
 			}			
