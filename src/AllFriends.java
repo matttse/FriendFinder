@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 import dhl.UserInputHandler;
-import dhl.ArrayQueue;
 
 /**
  * @author Matthew Tse
@@ -35,7 +34,6 @@ public class AllFriends {
 			File file = new File("C:/friendMatrix.txt");
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
-//			StringBuffer stringBuffer = new StringBuffer();
 			String line;
 			int completeFlag = 0;
 			String name = "";
@@ -87,13 +85,13 @@ public class AllFriends {
 				}				
 			}
 			//for debugging purposes ONLY
-			for (int j = 0; j < friendValues.size(); j++) {
-				int[] temp = friendValues.get(j);
-				for (int i = 0; i < temp.length; i++) {
-					System.out.print(temp[i]);	
-				}		
-				System.out.print("\n");
-			}
+//			for (int j = 0; j < friendValues.size(); j++) {
+//				int[] temp = friendValues.get(j);
+//				for (int i = 0; i < temp.length; i++) {
+//					System.out.print(temp[i]);	
+//				}		
+//				System.out.print("\n");
+//			}
 			//for debugging purposes ONLY			
 			
 			// instantiate the handler
@@ -101,12 +99,13 @@ public class AllFriends {
 
 			// Option selector
 			while (completeFlag == 0) {
+				//process input
 				name = processInput.getAlphaNum("Enter then name of a person whose friends you want to find (enter 0 for exit): ");				
-				if (name.equals("0")) {
-					completeFlag = 1;
-					System.out.println("Thank you and goodbye");
-					exit(0);
-				} else {
+				if (name.equals("0")) {//exit code
+					completeFlag = 1;//exit loop
+					System.out.println("Thank you and goodbye");//message
+					exit(0);//exit method
+				} else {//prints/gets friend list
 					AllFriends.getFriendList(name, friendValues, namesArray);
 				}
 			}
@@ -114,17 +113,30 @@ public class AllFriends {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.print("Problem with read io file.");
 		}//end trycatch
 	}
 	
-	
+	/*
+	 * @Name: getFriendList
+	 * 
+	 * @Function/Purpose: get friends and friends' friends
+	 * 
+	 * @Parameters:
+	 * 		{vc} name
+	 * 		{ArrayList<int[]} friendValues
+	 * 		{String[]} namesArray
+	 * 
+	 * @Additionl Comments:
+	 * 
+	 * @Return idx
+	 */
 	public static int getFriendList(String name, ArrayList<int[]> friendValues, String[] namesArray) {
-		String friendList = "";
 		int idx = -1;
 		int[] intData = null;
-		ArrayList<Integer> friendListIdx = new ArrayList<Integer>();
 		boolean visited[] = new boolean[friendValues.size()];
 
+		//instantiate visits
 		for (int i = 0; i < visited.length; i++) {
 			visited[i] = false;
 		}
@@ -139,43 +151,72 @@ public class AllFriends {
 		if (idx != -1) {//check name found
 			//get friend indexes (non zero)
 			for (int i = 0; i < namesArray.length; i++) {
-				if (!visited[i] && name.equals(namesArray[i])) {
-					visited[i] = true;
-					intData = friendValues.get(getPersonId(namesArray, name));									
+				if (!visited[i] && name.equals(namesArray[i])) {//check if name has been visited and name is correct
+					visited[i] = true;//set visit true
+					intData = friendValues.get(getPersonId(namesArray, name));//get friend data									
 					findFriends(intData, namesArray, friendValues, visited, i);
 				}
 			}			
 					
-		} else {
+		} else {//default message
 			System.out.println("Name not found");
 		}
 		
 		
 		return idx;
-	}
+	}//end getFriendList method
 	
+	/*
+	 * @Name: findFriends
+	 * 
+	 * @Function/Purpose: find and print friends
+	 * 
+	 * @Parameters:
+	 * 		{int[]} friendData
+	 * 		{String[]} namesArray
+	 * 		{ArrayList<int[]} friendValues
+	 * 		{boolean[]} visited
+	 * 		{i4} id
+	 * 
+	 * @Additionl Comments:
+	 * 
+	 * @Return null
+	 */	
 	public static void findFriends(int[] friendData, String[] namesArray, ArrayList<int[]> friendValues, boolean[] visited, int id) {
-		for (int i = 0; i < friendData.length; i++) {
-			if (!visited[i] && i != id && friendData[i] != 0) {
+		for (int i = 0; i < friendData.length; i++) {//loop through each row of whether a friend is marked
+			if (!visited[i] && i != id && friendData[i] != 0) {//check if already been visited, is ownself, and is a friend
 				visited[i] = true;
 				System.out.println(namesArray[i]);
 				friendData = friendValues.get(i);
-				findFriends(friendData, namesArray, friendValues, visited, i);
+				findFriends(friendData, namesArray, friendValues, visited, i);//recursive
 			}
 		}
-	}
+	}//end findFriends method
 	
+	/*
+	 * @Name: getPersonId
+	 * 
+	 * @Function/Purpose: get friends and friends' friends
+	 * 
+	 * @Parameters:
+	 * 		{String[]} namesArray
+	 * 	 	{vc} name
+	 * 
+	 * @Additionl Comments:
+	 * 
+	 * @Return idx
+	 */
 	public static int getPersonId(String[] namesArray, String name) {
 		int idx = -1;
 		//get index of desired name
 		for (int i = 0; i < namesArray.length; i++) {			
 			if (name.equals(namesArray[i])) {
 				idx = i;
-				break;
+				break;//exit on find
 			}
 		}
 		return idx;
-	}
+	}//end getPersonId method
 	
 	// standard system exit.
 	public static void exit(int status) {
