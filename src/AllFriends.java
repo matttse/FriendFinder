@@ -46,6 +46,7 @@ public class AllFriends {
 			String[] row = null;
 			int[] intData = null;
 			AllFriends output = new AllFriends();
+			int stat;
 			//while there is an expression to read
 			while ((line = bufferedReader.readLine()) != null) {
 				if (cnt == 0) {//first line is number of people in file
@@ -53,6 +54,7 @@ public class AllFriends {
 						size = Integer.parseInt(line.trim().replaceAll("﻿", "").replaceAll("\\s+", ""));
 					} catch (Exception e) {
 						e.printStackTrace();
+						System.out.print("Problem parsing data file @line 0");
 					}
 				} else if (cnt == 1) {//store names
 					namesArray = new String[size];
@@ -61,7 +63,12 @@ public class AllFriends {
 					row = line.trim().replaceAll(" ", " ").replaceAll("\\s+", " ").split(" ");
 					intData = new int[(row.length-1)];//set array length offset name
 					for (int i = 0; i < (row.length-1); i++) {
-						intData[i] = Integer.parseInt(row[i+1]);
+						try {
+							intData[i] = Integer.parseInt(row[i+1]);	
+						} catch (Exception e) {
+							e.printStackTrace();
+							System.out.print("Problem parsing data file @line 3");
+						}
 					}
 					friendValues.add(intData);					
 				}
@@ -100,7 +107,7 @@ public class AllFriends {
 					System.out.println("Thank you and goodbye");
 					exit(0);
 				} else {
-					output.getFriendList(name, friendValues, namesArray);
+					AllFriends.getFriendList(name, friendValues, namesArray);
 				}
 			}
 
@@ -111,13 +118,18 @@ public class AllFriends {
 	}
 	
 	
-	public String getFriendList(String name, ArrayList<int[]> friendValues, String[] namesArray) {
+	public static int getFriendList(String name, ArrayList<int[]> friendValues, String[] namesArray) {
 		String friendList = "";
 		int idx = -1;
-		int[] temp;
+		int[] intData = null;
 		ArrayList<Integer> friendListIdx = new ArrayList<Integer>();
-		ArrayQueue friendQ = new ArrayQueue();
-		//get index of desired name
+		boolean visited[] = new boolean[friendValues.size()];
+
+		for (int i = 0; i < visited.length; i++) {
+			visited[i] = false;
+		}
+
+		//check name
 		for (int i = 0; i < namesArray.length; i++) {			
 			if (name.equals(namesArray[i])) {
 				idx = i;
@@ -125,29 +137,44 @@ public class AllFriends {
 			}
 		}
 		if (idx != -1) {//check name found
-			temp = friendValues.get(idx);//unpack friend identifier row
 			//get friend indexes (non zero)
-			for (int i = 0; i < temp.length; i++) {
-				if (temp[i] != 0) {
-					friendList += namesArray[i] + ", ";	
-					friendListIdx.add(i);
+			for (int i = 0; i < namesArray.length; i++) {
+				if (!visited[i]) {
+					intData = friendValues.get(getPersonId(namesArray, name));
+					visited[i] = true;					
+					findFriends(intData, namesArray, visited, i);
 				}
-			}
-			if (friendList != "") {
-				System.out.println(friendList);
-			} else {
-				friendList = "No Friends Found for " + name;
-				System.out.println(friendList);					
-			}
-				
+			}			
+					
 		} else {
 			System.out.println("Name not found");
 		}
-
 		
-		return friendList;
+		
+		return idx;
 	}
 	
+	public static void findFriends(int[] friendData, String[] namesArray, boolean[] visited, int id) {
+		for (int i = 0; i < friendData.length; i++) {
+			if (!visited[i] && friendData[i] != 0 && i != id) {
+				visited[i] = true;
+				System.out.println(namesArray[i]);
+				findFriends(friendData, namesArray, visited, i);
+			}
+		}
+	}
+	
+	public static int getPersonId(String[] namesArray, String name) {
+		int idx = -1;
+		//get index of desired name
+		for (int i = 0; i < namesArray.length; i++) {			
+			if (name.equals(namesArray[i])) {
+				idx = i;
+				break;
+			}
+		}
+		return idx;
+	}
 	
 	// standard system exit.
 	public static void exit(int status) {
