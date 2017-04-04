@@ -18,7 +18,10 @@ Specification
 		int[] intData - stores friends by 0 or 1
 		ArrayList<int[]> friendValues - stores list of each name's friends
 		String[] namesArray - stores friends
-		getFriendList		
+		Static Methods:
+			getFriendList
+			findFriends	
+			getPersonId
 	Returns:
 		null
 Specification
@@ -42,6 +45,7 @@ Specification
 			an int[] 0 or 1 for each friend, 1 being noted as friend
 		visited - array to check whether or not friend has already been checked
 		id - index of name in namesArray
+		name - the input to check parameter duplicate
 	Returns:
 		null
 - public static int getPersonId

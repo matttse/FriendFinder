@@ -145,13 +145,13 @@ public class AllFriends {
 				break;
 			}
 		}
-		if (idx != -1) {//check name found
+		if (idx != -1) {//check name found otherwise skip recusrion
 			//get friend indexes (non zero)
 			for (int i = 0; i < namesArray.length; i++) {
 				if (!visited[i] && !name.equals(namesArray[i])) {//check if name has been visited and name is correct
 					visited[i] = true;//set visit true					
 					intData = friendValues.get(getPersonId(namesArray, name));//get friend data		
-					if (intData[i] == 1) {
+					if (intData[i] == 1) {//edge case check so name print isn't skipped
 						System.out.println(namesArray[i]);
 					}
 					findFriends(intData, namesArray, friendValues, visited, i, name);
@@ -177,6 +177,7 @@ public class AllFriends {
 	 * 		{ArrayList<int[]} friendValues
 	 * 		{boolean[]} visited
 	 * 		{i4} id
+	 * 		{vc} name
 	 * 
 	 * @Additionl Comments:
 	 * 
