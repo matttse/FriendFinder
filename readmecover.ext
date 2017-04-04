@@ -1,0 +1,144 @@
+Project Name: Friend Finder Extension
+Author: Matthew Tse
+Date: 04/04/2017
+
+source:
+	AllFriends
+package dhl
+	InputValidator
+	UserInputHandler
+	
+Class Allfriends
+- public class Allfriends
+		The main class that displays options to the user interface
+Specification
+- main
+		public static void main(String[] args)
+		instantiates UserInputHandler from package dhl
+		int[] intData - stores friends by 0 or 1
+		ArrayList<int[]> friendValues - stores list of each name's friends
+		String[] namesArray - stores friends
+		getFriendList		
+	Returns:
+		null
+Specification
+- public static int getFriendList
+		gets and prints friends and friends of friends
+	Parameters:
+		name - the user input
+		friendValues - an arraylist of names each idx containing 
+			an int[] 0 or 1 for each friend, 1 being noted as friend
+		namesArray - names available
+	Returns:
+		int
+- public static void findFriends
+		finds valid friends from friendData and 
+		finds friends of friends 
+	Parameters:
+		friendData - int[] 0 or 1 for each friend, 1 being noted as friend
+		 - String or Number validation
+		namesArray - names available
+		friendValues - an arraylist of names each idx containing 
+			an int[] 0 or 1 for each friend, 1 being noted as friend
+		visited - array to check whether or not friend has already been checked
+		id - index of name in namesArray
+	Returns:
+		null
+- public static int getPersonId
+		gets name index
+	Parameters:
+		namesArray - names available
+		name - the user input
+	Returns:
+		index
+- public void exit(int status)
+		standard system exit
+	Parameters:
+		status - exit status
+	Returns:
+		null
+Class InputValidator 
+- public class InputValidator from package dhl
+		The InputValidator object that validates user input
+		
+Specification
+- public boolean validate(String userInput, int flag, int typeFlag)
+		Validates any user input based on type, checks for
+		invalid characters and informs them of errors. Also calls method
+		confirm()
+		
+	Parameters:
+		input - the user input
+		flag - String or Number validation
+		typeFlag - determines type of number
+	Returns:
+		validInput boolean depending returned values
+- public boolean validateString(String userInput)
+		validates string input
+	Parameters:
+		userInput - input from the user
+	Returns:
+		validInput boolean 
+		
+- public boolean validateNum(String userInput, int flag)
+		validates number input
+	Parameters:
+		userInput - input from the user
+		flag - type of number to check
+	Returns:
+		validInput boolean 
+- public class ErrorGetter
+		ErrorGetter object that returns user input when invalid along with
+		standard message
+	Parameters:
+		null
+	Returns:
+		partialInput message and user input
+		
+Class UserInputHandler
+- public class UserInputHandler from package dhl
+		UserInputHandler object that handles user input from keyboard
+
+Specification
+- Constructor for UserInputHandler
+		instantiates Scanner object
+	Precondition:
+		System.in
+- public String getAlphaNum(String inputString)
+		gets alpha numeric string
+	Parameters:
+		inputString - string of input
+	Returns:
+		outputText value
+- public String getString(String inputString)
+		gets string value
+	Parameters:
+		inputString - string of input
+	Returns:
+		outputText value string
+- public String getNum(String input, int typeFlag)
+		gets numerical values
+	Parameters:
+		input - user input
+		typeFlag - type of number
+	Returns:
+		outputText value string
+- public String processOutput(String processInput)
+		removes whitespace from a string
+	Parameters:
+		processInput - input value
+	Returns:
+		processOutput string value
+- public boolean getMatchedItems(string list, String compareValue)
+		compares a value to a comma separated list
+	Parameters:
+		list - customer details as a list
+		compareValue - the value to compare to list
+	Returns:
+		validVal boolean
+- public boolean confirmInput()
+		prompts the user to confirm input with up to 3 tries
+	Parameters:
+		null
+	Returns:
+		valid confirmation of user input

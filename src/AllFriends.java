@@ -3,7 +3,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.TreeMap;
 
 import dhl.UserInputHandler;
 
@@ -43,8 +42,6 @@ public class AllFriends {
 			String[] namesArray = null;
 			String[] row = null;
 			int[] intData = null;
-			AllFriends output = new AllFriends();
-			int stat;
 			//while there is an expression to read
 			while ((line = bufferedReader.readLine()) != null) {
 				if (cnt == 0) {//first line is number of people in file
@@ -85,13 +82,13 @@ public class AllFriends {
 				}				
 			}
 			//for debugging purposes ONLY
-//			for (int j = 0; j < friendValues.size(); j++) {
-//				int[] temp = friendValues.get(j);
-//				for (int i = 0; i < temp.length; i++) {
-//					System.out.print(temp[i]);	
-//				}		
-//				System.out.print("\n");
-//			}
+			for (int j = 0; j < friendValues.size(); j++) {
+				int[] temp = friendValues.get(j);
+				for (int i = 0; i < temp.length; i++) {
+					System.out.print(temp[i]);	
+				}		
+				System.out.print("\n");
+			}
 			//for debugging purposes ONLY			
 			
 			// instantiate the handler
@@ -106,7 +103,7 @@ public class AllFriends {
 					System.out.println("Thank you and goodbye");//message
 					exit(0);//exit method
 				} else {//prints/gets friend list
-					AllFriends.getFriendList(name, friendValues, namesArray);
+					getFriendList(name, friendValues, namesArray);
 				}
 			}
 
@@ -196,7 +193,7 @@ public class AllFriends {
 	/*
 	 * @Name: getPersonId
 	 * 
-	 * @Function/Purpose: get friends and friends' friends
+	 * @Function/Purpose: get name index
 	 * 
 	 * @Parameters:
 	 * 		{String[]} namesArray
