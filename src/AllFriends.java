@@ -3,14 +3,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
 import dhl.UserInputHandler;
+import dhl.ArrayQueue;
 
 /**
  * @author Matthew Tse
@@ -45,8 +41,6 @@ public class AllFriends {
 			String name = "";
 			int size = 0;
 			int cnt = 0;
-			// instantiate the the customer list object	
-			TreeMap<String, ArrayList> friendList = new TreeMap<String, ArrayList>();
 			ArrayList<int[]> friendValues = new ArrayList<int[]>();
 			String[] namesArray = null;
 			String[] row = null;
@@ -93,18 +87,7 @@ public class AllFriends {
 				}		
 				System.out.print("\n");
 			}
-			//for debugging purposes ONLY
-			
-//			Set<Entry<String, ArrayList>> set = friendList.entrySet();
-//			
-//			Iterator<Entry<String, ArrayList>> idx = set.iterator();
-//			
-//			while(idx.hasNext()) {
-//				Map.Entry<String, ArrayList> fList = (Map.Entry<String, ArrayList>)idx.next();
-//				
-//				System.out.println(fList.getValue());
-//			}
-			
+			//for debugging purposes ONLY			
 			
 			// instantiate the handler
 			UserInputHandler<String> processInput = new UserInputHandler<String>();
@@ -133,11 +116,11 @@ public class AllFriends {
 		int idx = -1;
 		int[] temp;
 		ArrayList<Integer> friendListIdx = new ArrayList<Integer>();
+		ArrayQueue friendQ = new ArrayQueue();
 		//get index of desired name
-		for (int i = 0; i < namesArray.length; i++) {
+		for (int i = 0; i < namesArray.length; i++) {			
 			if (name.equals(namesArray[i])) {
 				idx = i;
-				System.out.println(idx);
 				break;
 			}
 		}
@@ -146,19 +129,17 @@ public class AllFriends {
 			//get friend indexes (non zero)
 			for (int i = 0; i < temp.length; i++) {
 				if (temp[i] != 0) {
+					friendList += namesArray[i] + ", ";	
 					friendListIdx.add(i);
 				}
 			}
-			if (!friendListIdx.isEmpty()) {
-				for (int i = 0; i < namesArray.length; i++) {
-					//TODO find friend name based on idx
-				}
-
+			if (friendList != "") {
 				System.out.println(friendList);
 			} else {
-				friendList = "No Friends Found.";
-				System.out.println(friendList);
+				friendList = "No Friends Found for " + name;
+				System.out.println(friendList);					
 			}
+				
 		} else {
 			System.out.println("Name not found");
 		}
