@@ -132,6 +132,7 @@ public class AllFriends {
 		int idx = -1;
 		int[] intData = null;
 		ArrayList<String> friendList = new ArrayList<String>();
+		int degrees = 1;
 
 		//check name
 		for (int i = 0; i < namesArray.length; i++) {			
@@ -144,9 +145,10 @@ public class AllFriends {
 			//get friend indexes (non zero)
 			for (int i = 0; i < namesArray.length; i++) {
 					intData = friendValues.get(getPersonId(namesArray, name));//get friend data
-					friendList.add(name);
-					findFriends(intData, namesArray, friendValues, name, friendList);
-//				}
+					if (!friendList.contains(name)) {//only add if name is not in list
+						friendList.add(name);	
+					}
+					findFriends(intData, namesArray, friendValues, name, friendList, degrees);
 			}			
 					
 		} else {//default message
@@ -172,15 +174,19 @@ public class AllFriends {
 	 * 
 	 * @Return null
 	 */	
-	public static void findFriends(int[] friendData, String[] namesArray, ArrayList<int[]> friendValues, String name, ArrayList<String> friendList) {
+	public static void findFriends(int[] friendData, String[] namesArray, ArrayList<int[]> friendValues, String name, ArrayList<String> friendList, int degrees) {
 		for (int i = 0; i < friendData.length; i++) {//loop through each row of whether a friend is marked
 			if (friendData[i] != 0 || !friendList.contains(name)) {//check if already been visited, is ownself, and is a friend
-				name = namesArray[i];
-				if (!friendList.contains(name)) {					
+				name = namesArray[i];//set found name to current name
+				if (!friendList.contains(name)) {//only add if name is not in list			
 					friendList.add(name);
 					System.out.println(name);
-					friendData = friendValues.get(i);
-					findFriends(friendData, namesArray, friendValues, name, friendList);//recursive
+					if (degrees == 1) {//check how many degrees of separation
+						friendData = friendValues.get(i);
+						degrees = degrees - 1;
+						findFriends(friendData, namesArray, friendValues, name, friendList, degrees);//recursive						
+					}
+
 				}	
 
 			} 
