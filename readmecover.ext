@@ -43,9 +43,9 @@ Specification
 		namesArray - names available
 		friendValues - an arraylist of names each idx containing 
 			an int[] 0 or 1 for each friend, 1 being noted as friend
-		visited - array to check whether or not friend has already been checked
-		id - index of name in namesArray
 		name - the input to check parameter duplicate
+		friendList - a running list to track allowable friends
+		degrees - how many times to check friends of friends
 	Returns:
 		null
 - public static int getPersonId

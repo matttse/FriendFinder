@@ -144,7 +144,7 @@ public class AllFriends {
 		if (idx != -1) {//check name found otherwise skip recusrion
 			//get friend indexes (non zero)
 			for (int i = 0; i < namesArray.length; i++) {
-					intData = friendValues.get(getPersonId(namesArray, name));//get friend data
+					intData = friendValues.get(getPersonId(namesArray, name));//set friend data row
 					if (!friendList.contains(name)) {//only add if name is not in list
 						friendList.add(name);	
 					}
@@ -169,12 +169,15 @@ public class AllFriends {
 	 * 		{String[]} namesArray
 	 * 		{ArrayList<int[]} friendValues
 	 * 		{vc} name
+	 * 		{ArrayList<String>} friendList 
+	 * 		{int} degrees
 	 * 
 	 * @Additionl Comments:
 	 * 
 	 * @Return null
 	 */	
-	public static void findFriends(int[] friendData, String[] namesArray, ArrayList<int[]> friendValues, String name, ArrayList<String> friendList, int degrees) {
+	public static void findFriends(int[] friendData, String[] namesArray, ArrayList<int[]> friendValues
+			, String name, ArrayList<String> friendList, int degrees) {
 		for (int i = 0; i < friendData.length; i++) {//loop through each row of whether a friend is marked
 			if (friendData[i] != 0 || !friendList.contains(name)) {//check if already been visited, is ownself, and is a friend
 				name = namesArray[i];//set found name to current name
@@ -182,8 +185,8 @@ public class AllFriends {
 					friendList.add(name);
 					System.out.println(name);
 					if (degrees == 1) {//check how many degrees of separation
-						friendData = friendValues.get(i);
-						degrees = degrees - 1;
+						friendData = friendValues.get(i);//set new row to check
+						degrees = degrees - 1;//decrement to avoid finding infinite recusrion
 						findFriends(friendData, namesArray, friendValues, name, friendList, degrees);//recursive						
 					}
 
