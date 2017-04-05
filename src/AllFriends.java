@@ -53,7 +53,7 @@ public class AllFriends {
 					}
 				} else if (cnt == 1) {//store names
 					namesArray = new String[size];
-					namesArray = line.trim().replaceAll("Â", " ").replaceAll("\\s", " ").split(" ");
+					namesArray = line.trim().replaceAll("Â", " ").replaceAll("\\s+", " ").split(" ");
 				} else {	
 					row = line.trim().replaceAll(" ", " ").replaceAll("\\s+", " ").split(" ");
 					intData = new int[(row.length-1)];//set array length offset name
@@ -82,13 +82,13 @@ public class AllFriends {
 				}				
 			}
 			//for debugging purposes ONLY
-			for (int j = 0; j < friendValues.size(); j++) {
-				int[] temp = friendValues.get(j);
-				for (int i = 0; i < temp.length; i++) {
-					System.out.print(temp[i]);	
-				}		
-				System.out.print("\n");
-			}
+//			for (int j = 0; j < friendValues.size(); j++) {
+//				int[] temp = friendValues.get(j);
+//				for (int i = 0; i < temp.length; i++) {
+//					System.out.print(temp[i]);	
+//				}		
+//				System.out.print("\n");
+//			}
 			//for debugging purposes ONLY			
 			
 			// instantiate the handler
