@@ -131,12 +131,7 @@ public class AllFriends {
 	public static int getFriendList(String name, ArrayList<int[]> friendValues, String[] namesArray) {
 		int idx = -1;
 		int[] intData = null;
-		boolean visited[] = new boolean[friendValues.size()];
-
-		//instantiate visits
-		for (int i = 0; i < visited.length; i++) {
-			visited[i] = false;
-		}
+		ArrayList<String> friendList = new ArrayList<String>();
 
 		//check name
 		for (int i = 0; i < namesArray.length; i++) {			
@@ -148,14 +143,10 @@ public class AllFriends {
 		if (idx != -1) {//check name found otherwise skip recusrion
 			//get friend indexes (non zero)
 			for (int i = 0; i < namesArray.length; i++) {
-				if (!visited[i] && !name.equals(namesArray[i])) {//check if name has been visited and name is correct				
-//					visited[i] = true;
 					intData = friendValues.get(getPersonId(namesArray, name));//get friend data
-//					if (intData[i] == 1) {//edge case check so name print isn't skipped
-//						System.out.println(namesArray[i]);
-//					}
-					findFriends(intData, namesArray, friendValues, visited, name);
-				}
+					friendList.add(name);
+					findFriends(intData, namesArray, friendValues, name, friendList);
+//				}
 			}			
 					
 		} else {//default message
@@ -175,21 +166,23 @@ public class AllFriends {
 	 * 		{int[]} friendData
 	 * 		{String[]} namesArray
 	 * 		{ArrayList<int[]} friendValues
-	 * 		{boolean[]} visited
-	 * 		{i4} id
 	 * 		{vc} name
 	 * 
 	 * @Additionl Comments:
 	 * 
 	 * @Return null
 	 */	
-	public static void findFriends(int[] friendData, String[] namesArray, ArrayList<int[]> friendValues, boolean[] visited, String name) {
+	public static void findFriends(int[] friendData, String[] namesArray, ArrayList<int[]> friendValues, String name, ArrayList<String> friendList) {
 		for (int i = 0; i < friendData.length; i++) {//loop through each row of whether a friend is marked
-			if (!visited[i] && friendData[i] != 0 && !name.equals(namesArray[i])) {//check if already been visited, is ownself, and is a friend
-				visited[i] = true;
-				System.out.println(namesArray[i]);
-				friendData = friendValues.get(i);
-				findFriends(friendData, namesArray, friendValues, visited, name);//recursive
+			if (friendData[i] != 0 || !friendList.contains(name)) {//check if already been visited, is ownself, and is a friend
+				name = namesArray[i];
+				if (!friendList.contains(name)) {					
+					friendList.add(name);
+					System.out.println(name);
+					friendData = friendValues.get(i);
+					findFriends(friendData, namesArray, friendValues, name, friendList);//recursive
+				}	
+
 			} 
 		}
 	}//end findFriends method
